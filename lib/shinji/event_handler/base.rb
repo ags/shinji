@@ -4,7 +4,7 @@ module Shinji
       EVENT_NAME = :unhandled_event
 
       def self.register
-        subscribe(EVENT_NAME) do |event|
+        subscribe(self::EVENT_NAME) do |event|
           handle(event)
         end
       end

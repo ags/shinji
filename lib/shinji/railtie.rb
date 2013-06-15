@@ -4,6 +4,7 @@ module Shinji
       Shinji::EventHandler::ActiveRecord::Sql,
       Shinji::EventHandler::ActionView::RenderTemplate,
       Shinji::EventHandler::ActionView::RenderPartial,
+      Shinji::EventHandler::ActionController::ProcessAction,
     ]
 
     config.after_initialize do

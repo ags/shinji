@@ -1,17 +1,28 @@
+require "net/http"
 require "request_store"
 require "shinji/version"
 require "shinji/configuration"
+require "shinji/transaction_payload"
+require "shinji/gendo_client"
 require "shinji/event_handler/base"
 require "shinji/event_handler/action_view/render_template"
 require "shinji/event_handler/action_view/render_partial"
 require "shinji/event_handler/active_record/sql"
+require "shinji/event_handler/action_controller/process_action"
 
 require "shinji/railtie"
 
 module Shinji
   class << self
     attr_writer :configuration
-    attr_writer :registered_event_handlers
+
+    def configure
+      yield configuration
+    end
+
+    def configuration
+      @configuration ||= Configuration.new
+    end
 
     def registered_event_handlers
       @registered_event_handlers ||= []
@@ -25,23 +36,17 @@ module Shinji
       transaction_storage[:view_events]
     end
 
+    def build_transaction_payload(event)
+      TransactionPayload.new(event, sql_events, view_events)
+    end
+
+    private
+
     def transaction_storage
       RequestStore.store[:transaction] ||= {
         sql_events: [],
         view_events: []
       }
-    end
-
-    def transaction_payload
-      TransactionPayload.new(event, sql_events, view_events)
-    end
-
-    def configuration
-      @configuration ||= Configuration.new
-    end
-
-    def configure
-      yield configuration
     end
   end
 end

@@ -15,4 +15,9 @@ describe Shinji::Railtie do
     expect(Shinji.registered_event_handlers).to \
       include(Shinji::EventHandler::ActionView::RenderPartial)
   end
+
+  it "registers EventHandler::ActionController::ProcessAction as an event handler" do
+    expect(Shinji.registered_event_handlers).to \
+      include(Shinji::EventHandler::ActionController::ProcessAction)
+  end
 end
