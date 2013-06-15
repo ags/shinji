@@ -3,6 +3,7 @@ module Shinji
     event_handlers = [
       Shinji::EventHandler::ActiveRecord::Sql,
       Shinji::EventHandler::ActionView::RenderTemplate,
+      Shinji::EventHandler::ActionView::RenderPartial,
     ]
 
     config.after_initialize do

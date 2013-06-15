@@ -6,8 +6,13 @@ describe Shinji::Railtie do
       include(Shinji::EventHandler::ActiveRecord::Sql)
   end
 
-  it "registers EventHandler::ActiveRecord::Sql as an event handler" do
+  it "registers EventHandler::ActionView::RenderTemplate as an event handler" do
     expect(Shinji.registered_event_handlers).to \
       include(Shinji::EventHandler::ActionView::RenderTemplate)
+  end
+
+  it "registers EventHandler::ActionView::RenderPartial as an event handler" do
+    expect(Shinji.registered_event_handlers).to \
+      include(Shinji::EventHandler::ActionView::RenderPartial)
   end
 end

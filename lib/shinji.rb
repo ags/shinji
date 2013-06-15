@@ -3,6 +3,7 @@ require "shinji/version"
 require "shinji/configuration"
 require "shinji/event_handler/base"
 require "shinji/event_handler/action_view/render_template"
+require "shinji/event_handler/action_view/render_partial"
 require "shinji/event_handler/active_record/sql"
 
 require "shinji/railtie"
