@@ -2,6 +2,7 @@ require "request_store"
 require "shinji/version"
 require "shinji/configuration"
 require "shinji/event_handler/base"
+require "shinji/event_handler/action_view/render_template"
 require "shinji/event_handler/active_record/sql"
 
 require "shinji/railtie"
@@ -17,6 +18,10 @@ module Shinji
 
     def sql_events
       transaction_storage[:sql_events]
+    end
+
+    def view_events
+      transaction_storage[:view_events]
     end
 
     def transaction_storage

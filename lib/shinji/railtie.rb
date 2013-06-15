@@ -2,6 +2,7 @@ module Shinji
   class Railtie < Rails::Railtie
     event_handlers = [
       Shinji::EventHandler::ActiveRecord::Sql,
+      Shinji::EventHandler::ActionView::RenderTemplate,
     ]
 
     config.after_initialize do
