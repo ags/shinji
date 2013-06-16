@@ -1,7 +1,5 @@
 module Shinji
   class GendoClient
-    READ_TIMEOUT  = 2
-    OPEN_TIMEOUT  = 5
     ENDPOINT_PATH = "/api/v1/transactions".freeze
     HTTP_ERRORS   = [Timeout::Error,
                      Errno::EINVAL,
@@ -48,8 +46,8 @@ module Shinji
         @configuration.host,
         @configuration.port
       ).tap do |http|
-        http.read_timeout = READ_TIMEOUT
-        http.open_timeout = OPEN_TIMEOUT
+        http.read_timeout = @configuration.read_timeout
+        http.open_timeout = @configuration.open_timeout
       end
     end
 
