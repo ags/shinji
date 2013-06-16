@@ -18,6 +18,7 @@ module Shinji
 
     def configure
       yield configuration
+      # TODO check app key is present
     end
 
     def configuration

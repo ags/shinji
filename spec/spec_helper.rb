@@ -8,3 +8,9 @@ require 'shinji'
 RSpec.configure do |config|
   config.order = 'random'
 end
+
+class TestLogger
+  def error(error)
+    p error
+  end
+end
