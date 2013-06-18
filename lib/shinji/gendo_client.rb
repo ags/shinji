@@ -32,11 +32,11 @@ module Shinji
       when Net::HTTPSuccess then
         JSON.parse(response.body)
       else
-        :request_failed
+        false
       end
     rescue => e
       logger.error(e)
-      :internal_failure
+      false
     end
 
     private

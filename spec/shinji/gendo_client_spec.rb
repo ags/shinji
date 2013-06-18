@@ -31,30 +31,30 @@ describe Shinji::GendoClient do
       let(:logger) { double.as_null_object }
 
       Shinji::GendoClient::HTTP_ERRORS.each do |error_class|
-        it "returns :request_failed on #{error_class}" do
+        it "returns false on #{error_class}" do
           client.stub(:http_connection).and_raise(error_class)
-          expect(client.post(payload)).to eq(:request_failed)
+          expect(client.post(payload)).to eq(false)
         end
       end
     end
 
     context "when the response is not successful" do
-      it "returns :request_failed" do
+      it "returns false" do
         stub_request(:post, "http://localhost:5000/api/v1/transactions").
           to_return(:status => 401)
 
-        expect(client.post(payload)).to eq(:request_failed)
+        expect(client.post(payload)).to eq(false)
       end
     end
 
     context "when parsing response body fails" do
       let(:logger) { double.as_null_object }
 
-      it "returns :internal_failure" do
+      it "returns false" do
         stub_request(:post, "http://localhost:5000/api/v1/transactions").
           to_return(:status => 201, :body => "")
 
-        expect(client.post(payload)).to eq(:internal_failure)
+        expect(client.post(payload)).to eq(false)
       end
     end
   end
