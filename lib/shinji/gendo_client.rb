@@ -19,7 +19,11 @@ module Shinji
     end
 
     def post(transaction_payload)
-      data = {"transaction" => transaction_payload.to_h}.to_json
+      data = {
+        "transaction" => transaction_payload.to_h.merge(
+          shinji_version: Shinji::VERSION
+        )
+      }.to_json
 
       response = begin
                    http_connection.post(ENDPOINT_PATH, data, headers)

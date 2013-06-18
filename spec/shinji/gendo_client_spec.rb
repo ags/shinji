@@ -14,7 +14,7 @@ describe Shinji::GendoClient do
     it "posts JSON of the given payload to Gendo" do
       stub_request(:post, "http://localhost:5000/api/v1/transactions").
         with(
-          :body => "{\"transaction\":{\"a\":1}}",
+          :body => "{\"transaction\":{\"a\":1,\"shinji_version\":\"0.0.1\"}}",
           :headers => {
             "Accept" => "application/json",
             "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
