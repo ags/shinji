@@ -2,23 +2,29 @@ module Shinji
   class TransactionPayload < Struct.new(:event, :sql_events, :view_events)
     def to_h
       {
-        controller: event.payload[:controller],
-        action: event.payload[:action],
         path: event.payload[:path],
-        format: event.payload[:format],
-        method: event.payload[:method],
         status: event.payload[:status],
         started_at: event.time.to_f,
         ended_at: event.end.to_f,
         db_runtime: event.payload[:db_runtime],
         view_runtime: event.payload[:view_runtime],
         duration: event.duration,
+        source: source,
         sql_events: sql_events_hash,
         view_events: view_events_hash
       }
     end
 
     private
+
+    def source
+      {
+        controller: event.payload[:controller],
+        action: event.payload[:action],
+        format_type: event.payload[:format],
+        method_name: event.payload[:method]
+      }
+    end
 
     def sql_events_hash
       sql_events.map { |sql_event|
