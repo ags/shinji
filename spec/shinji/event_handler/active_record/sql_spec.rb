@@ -5,7 +5,7 @@ describe Shinji::EventHandler::ActiveRecord::Sql do
     it "pushes the created event into the sql_events collection" do
       event = ActiveSupport::Notifications::Event.new(
         "sql.active_record",
-        1.second.ago,
+        Time.now - 1,
         Time.now,
         123,
         {sql: "SELECT * FROM posts"}

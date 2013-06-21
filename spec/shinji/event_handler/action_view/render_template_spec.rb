@@ -5,7 +5,7 @@ describe Shinji::EventHandler::ActionView::RenderTemplate do
     it "pushes the created event into the view_events collection" do
       event = ActiveSupport::Notifications::Event.new(
         "render_template.action_view",
-        1.second.ago,
+        Time.now - 1,
         Time.now,
         123,
         {identifier: "/app/views/posts/new"}

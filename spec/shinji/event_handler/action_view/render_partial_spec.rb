@@ -5,7 +5,7 @@ describe Shinji::EventHandler::ActionView::RenderPartial do
     it "pushes the created event into the view_events collection" do
       event = ActiveSupport::Notifications::Event.new(
         "render_partial.action_view",
-        1.second.ago,
+        Time.now - 1,
         Time.now,
         123,
         {identifier: "/app/views/posts/_post"}
