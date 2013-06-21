@@ -21,7 +21,8 @@ module Shinji
     def post(transaction_payload)
       data = {
         "transaction" => transaction_payload.to_h.merge(
-          shinji_version: Shinji::VERSION
+          shinji_version: Shinji::VERSION,
+          framework: Shinji.configuration.framework
         )
       }.to_json
 

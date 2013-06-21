@@ -10,12 +10,16 @@ describe Shinji::GendoClient do
   let(:client) { Shinji::GendoClient.new(configuration: config) }
   let(:payload) { {a: 1} }
 
+  before do
+    Shinji.configuration.stub(:framework) { "Rails 5.0.0" }
+  end
+
   describe "#post" do
     it "posts JSON of the given payload to Gendo" do
       stub_request(:post, "http://localhost:5000/api/v1/transactions").
         with(
-          :body => "{\"transaction\":{\"a\":1,\"shinji_version\":\"0.0.1\"}}",
-          :headers => {
+          body: "{\"transaction\":{\"a\":1,\"shinji_version\":\"0.0.1\",\"framework\":\"Rails 5.0.0\"}}",
+          headers: {
             "Accept" => "application/json",
             "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
             "Authorization" => "Bearer 123",

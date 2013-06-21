@@ -15,5 +15,9 @@ module Shinji
       @read_timeout = options.fetch(:read_timeout, 2)
       @open_timeout = options.fetch(:open_timeout, 5)
     end
+
+    def framework
+      "Rails #{Rails::VERSION::STRING}"
+    end
   end
 end
