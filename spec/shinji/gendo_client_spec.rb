@@ -16,9 +16,9 @@ describe Shinji::GendoClient do
 
   describe "#post" do
     it "posts JSON of the given payload to Gendo" do
-      stub_request(:post, "http://localhost:5000/api/v1/transactions").
+      stub_post = stub_request(:post, "http://localhost:5000/api/v1/transactions").
         with(
-          body: "{\"transaction\":{\"a\":1,\"shinji_version\":\"0.0.1\",\"framework\":\"Rails 5.0.0\"}}",
+          body: "{\"transaction\":{\"a\":1}}",
           headers: {
             "Accept" => "application/json",
             "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
@@ -29,6 +29,8 @@ describe Shinji::GendoClient do
       ).to_return(:status => 201, :body => "{}")
 
       client.post(payload)
+
+      expect(stub_post).to have_been_requested
     end
 
     context "when an expected HTTP error occurs" do

@@ -10,24 +10,19 @@ module Shinji
                      Net::ProtocolError,
                      Errno::ECONNREFUSED].freeze
 
-    def self.post_transaction_payload(transaction_payload)
-      new.post(transaction_payload)
+    def self.post(data)
+      new.post(data)
     end
 
     def initialize(options={})
       @configuration = options.fetch(:configuration, Shinji.configuration)
     end
 
-    def post(transaction_payload)
-      data = {
-        "transaction" => transaction_payload.to_h.merge(
-          shinji_version: Shinji::VERSION,
-          framework: Shinji.configuration.framework
-        )
-      }.to_json
+    def post(gendo_data)
+      request_body = {"transaction" => gendo_data}.to_json
 
       response = begin
-                   http_connection.post(ENDPOINT_PATH, data, headers)
+                   http_connection.post(ENDPOINT_PATH, request_body, headers)
                  rescue *HTTP_ERRORS => e
                    logger.error(e)
                    :http_error
