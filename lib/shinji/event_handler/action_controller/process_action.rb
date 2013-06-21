@@ -7,7 +7,7 @@ module Shinji
         def self.handle(event)
           payload = Shinji.build_transaction_payload(event)
 
-          Shinji::GendoClient.post_transaction_payload(payload)
+          SuckerPunch::Queue[Shinji::PAYLOAD_QUEUE].async.perform(payload)
         end
       end
     end

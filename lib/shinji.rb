@@ -1,6 +1,7 @@
 require "json"
 require "net/http"
 require "request_store"
+require "sucker_punch"
 require "shinji/version"
 require "shinji/configuration"
 require "shinji/transaction_payload"
@@ -10,10 +11,13 @@ require "shinji/event_handler/action_view/render_template"
 require "shinji/event_handler/action_view/render_partial"
 require "shinji/event_handler/active_record/sql"
 require "shinji/event_handler/action_controller/process_action"
+require "shinji/workers/send_payload_worker"
 
 require "shinji/railtie"
 
 module Shinji
+  PAYLOAD_QUEUE = :shinji_send_payload
+
   class << self
     attr_writer :configuration
 

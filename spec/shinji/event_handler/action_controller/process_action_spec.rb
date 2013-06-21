@@ -1,4 +1,5 @@
 require "spec_helper"
+require "sucker_punch/testing"
 
 describe Shinji::EventHandler::ActionController::ProcessAction do
   describe ".handle" do
@@ -11,11 +12,9 @@ describe Shinji::EventHandler::ActionController::ProcessAction do
         with(event).
         and_return(payload)
 
-      Shinji::GendoClient.
-        should_receive(:post_transaction_payload).
-        with(payload)
-
-      Shinji::EventHandler::ActionController::ProcessAction.handle(event)
+      expect do
+        Shinji::EventHandler::ActionController::ProcessAction.handle(event)
+      end.to change{ SuckerPunch::Queue.new(:shinji_send_payload).jobs.size }.by(1)
     end
 
     it "pushes the created event into the view_events collection" do
