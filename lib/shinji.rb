@@ -23,7 +23,10 @@ module Shinji
 
     def configure
       yield configuration
-      # TODO check app key is present
+
+      unless configuration.app_key.present?
+        raise InvalidConfiguration, "Shinji requires your application key."
+      end
     end
 
     def configuration
@@ -55,4 +58,6 @@ module Shinji
       }
     end
   end
+
+  InvalidConfiguration = Class.new(StandardError)
 end
