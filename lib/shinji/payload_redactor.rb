@@ -21,14 +21,11 @@ module Shinji
     private
 
     def redactable_sql?(sql)
-      redactable_sql_tokens.any? { |token| sql =~ token }
+      redactable_sql_tokens.any? { |token| sql =~ Regexp.new(token) }
     end
 
     def redactable_sql_tokens
-      [/password/]
-
-      # TODO include Rails.configuration.filter_parameters
-      # TODO include a configurable source of filters
+      Shinji.configuration.redactable_sql_tokens
     end
   end
 end

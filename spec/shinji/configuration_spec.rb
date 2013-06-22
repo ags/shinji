@@ -23,6 +23,10 @@ describe Shinji::Configuration do
     expect(config.open_timeout).to eq(5)
   end
 
+  it "defaults the redactable_sql_tokens to 'password'" do
+    expect(config.redactable_sql_tokens).to eq(["password"])
+  end
+
   describe "#framework" do
     before do
       stub_const("Rails::VERSION::STRING", "5.0.0")

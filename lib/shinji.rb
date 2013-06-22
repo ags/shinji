@@ -25,6 +25,8 @@ module Shinji
     def configure
       yield configuration
 
+      configuration.redactable_sql_tokens.flatten!
+
       unless configuration.app_key.present?
         raise InvalidConfiguration, "Shinji requires your application key."
       end
