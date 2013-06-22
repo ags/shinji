@@ -5,9 +5,11 @@ module Shinji
         EVENT_NAME = "process_action.action_controller"
 
         def self.handle(event)
-          payload = Shinji.build_transaction_payload(event)
+          if Shinji.enabled?
+            payload = Shinji.build_transaction_payload(event)
 
-          SuckerPunch::Queue[Shinji::PAYLOAD_QUEUE].async.perform(payload)
+            SuckerPunch::Queue[Shinji::PAYLOAD_QUEUE].async.perform(payload)
+          end
         end
       end
     end

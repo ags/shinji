@@ -27,6 +27,10 @@ describe Shinji::Configuration do
     expect(config.redactable_sql_tokens).to eq(["password"])
   end
 
+  it "is enabled by default" do
+    expect(config.enabled).to be_true
+  end
+
   describe "#framework" do
     before do
       stub_const("Rails::VERSION::STRING", "5.0.0")

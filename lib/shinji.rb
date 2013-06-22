@@ -36,6 +36,10 @@ module Shinji
       @configuration ||= Configuration.new
     end
 
+    def enabled?
+      configuration.enabled
+    end
+
     def registered_event_handlers
       @registered_event_handlers ||= []
     end
