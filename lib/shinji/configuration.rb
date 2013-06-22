@@ -22,7 +22,7 @@ module Shinji
       @open_timeout           = options.fetch(:open_timeout, 5)
       @redactable_sql_tokens  = options.fetch(:redactable_sql_tokens,
                                               DEFAULT_REDACTABLE_SQL_TOKENS.dup)
-      @enabled                = options.fetch(:enabled, true)
+      @enabled                = options.fetch(:enabled, Rails.env.production?)
     end
 
     def framework

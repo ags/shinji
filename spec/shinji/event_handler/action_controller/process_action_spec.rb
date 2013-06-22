@@ -13,30 +13,35 @@ describe Shinji::EventHandler::ActionController::ProcessAction do
         {identifier: "/app/views/posts/new"}
       )
     }
+    let(:enabled) { true }
 
-    it "builds a TransactionPayload and queues it for sending" do
-      payload = stub(:payload)
-
-      Shinji.
-        should_receive(:build_transaction_payload).
-        with(event).
-        and_return(payload)
-
-      expect do
-        Shinji::EventHandler::ActionController::ProcessAction.handle(event)
-      end.to change { queue.jobs.size }.by(1)
+    before do
+      Shinji.stub(:enabled?).and_return(enabled)
     end
 
-    it "pushes the created event into the view_events collection" do
-      Shinji::EventHandler::ActionView::RenderTemplate.handle(event)
+    context "when Shinji is enabled" do
+      it "builds a TransactionPayload and queues it for sending" do
+        payload = stub(:payload)
 
-      expect(Shinji.view_events).to include(event)
+        Shinji.
+          should_receive(:build_transaction_payload).
+          with(event).
+          and_return(payload)
+
+        expect do
+          Shinji::EventHandler::ActionController::ProcessAction.handle(event)
+        end.to change { queue.jobs.size }.by(1)
+      end
+
+      it "pushes the created event into the view_events collection" do
+        Shinji::EventHandler::ActionView::RenderTemplate.handle(event)
+
+        expect(Shinji.view_events).to include(event)
+      end
     end
 
     context "when Shinji is disabled" do
-      before do
-        Shinji.stub(:enabled?).and_return(false)
-      end
+      let(:enabled) { false }
 
       it "does not queue a TransactionPayload" do
         expect do

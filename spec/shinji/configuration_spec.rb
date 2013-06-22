@@ -27,8 +27,22 @@ describe Shinji::Configuration do
     expect(config.redactable_sql_tokens).to eq(["password"])
   end
 
-  it "is enabled by default" do
-    expect(config.enabled).to be_true
+  describe "enabled" do
+    [
+      {name: :production, enabled: true},
+      {name: :development, enabled: false},
+      {name: :test, enabled: false},
+    ].each do |env|
+      context "when the when the Rails environment is #{env[:name]}" do
+        before do
+          Rails.env.stub("#{env[:name]}?").and_return(true)
+        end
+
+        it "is #{env[:enabled]}" do
+          expect(config.enabled).to eq(env[:enabled])
+        end
+      end
+    end
   end
 
   describe "#framework" do
