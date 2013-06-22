@@ -25,7 +25,9 @@ module Shinji
     def configure
       yield configuration
 
-      configuration.redactable_sql_tokens.flatten!
+      # flatten! returns nil if no subarrays were flattened. nonsense.
+      configuration.redactable_sql_tokens = \
+        configuration.redactable_sql_tokens.flatten.uniq
 
       unless configuration.app_key.present?
         raise InvalidConfiguration, "Shinji requires your application key."
