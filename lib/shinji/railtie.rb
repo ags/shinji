@@ -10,7 +10,9 @@ module Shinji
     config.before_initialize do
       WORKERS = 3
       SuckerPunch.config do
-        queue name: Shinji::PAYLOAD_QUEUE, worker: Shinji::SendPayloadWorker, workers: WORKERS
+        queue name: Shinji::PAYLOAD_QUEUE,
+              worker: Shinji::SendPayloadWorker,
+              workers: WORKERS
       end
     end
 
