@@ -1,17 +1,18 @@
 module Shinji
-  class TransactionPayload < Struct.new(:event, :sql_events, :view_events)
+  class TransactionPayload < Struct.new(:event, :sql_events, :view_events, :mailer_events)
     def to_h
       {
-        path:         event.payload[:path],
-        status:       event.payload[:status],
-        started_at:   event.time.to_f,
-        ended_at:     event.end.to_f,
-        db_runtime:   event.payload[:db_runtime],
-        view_runtime: event.payload[:view_runtime],
-        duration:     event.duration,
-        source:       source,
-        sql_events:   sql_events_hash,
-        view_events:  view_events_hash
+        path:           event.payload[:path],
+        status:         event.payload[:status],
+        started_at:     event.time.to_f,
+        ended_at:       event.end.to_f,
+        db_runtime:     event.payload[:db_runtime],
+        view_runtime:   event.payload[:view_runtime],
+        duration:       event.duration,
+        source:         source,
+        sql_events:     sql_events_hash,
+        view_events:    view_events_hash,
+        mailer_events:  mailer_events_hash
       }
     end
 
@@ -19,10 +20,10 @@ module Shinji
 
     def source
       {
-        controller:   event.payload[:controller],
-        action:       event.payload[:action],
-        format_type:  event.payload[:format],
-        method_name:  event.payload[:method]
+        controller:   event.payload.fetch(:controller),
+        action:       event.payload.fetch(:action),
+        format_type:  event.payload.fetch(:format),
+        method_name:  event.payload.fetch(:method)
       }
     end
 
@@ -45,6 +46,18 @@ module Shinji
           started_at: view_event.time.to_f,
           ended_at:   view_event.end.to_f,
           duration:   view_event.duration
+        }
+      }
+    end
+
+    def mailer_events_hash
+      mailer_events.map { |mailer_event|
+        {
+          mailer:     mailer_event.payload.fetch(:mailer),
+          message_id: mailer_event.payload[:message_id],
+          started_at: mailer_event.time.to_f,
+          ended_at:   mailer_event.end.to_f,
+          duration:   mailer_event.duration
         }
       }
     end

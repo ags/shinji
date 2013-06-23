@@ -20,4 +20,9 @@ describe Shinji::Railtie do
     expect(Shinji.registered_event_handlers).to \
       include(Shinji::EventHandler::ActionController::ProcessAction)
   end
+
+  it "registers EventHandler::ActionMailer::Deliver as an event handler" do
+    expect(Shinji.registered_event_handlers).to \
+      include(Shinji::EventHandler::ActionMailer::Deliver)
+  end
 end

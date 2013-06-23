@@ -12,6 +12,7 @@ require "shinji/event_handler/action_view/render_template"
 require "shinji/event_handler/action_view/render_partial"
 require "shinji/event_handler/active_record/sql"
 require "shinji/event_handler/action_controller/process_action"
+require "shinji/event_handler/action_mailer/deliver"
 require "shinji/workers/send_payload_worker"
 
 require "shinji/railtie"
@@ -54,8 +55,12 @@ module Shinji
       transaction_storage[:view_events]
     end
 
+    def mailer_events
+      transaction_storage[:mailer_events]
+    end
+
     def build_transaction_payload(event)
-      TransactionPayload.new(event, sql_events, view_events)
+      TransactionPayload.new(event, sql_events, view_events, mailer_events)
     end
 
     private
@@ -63,7 +68,8 @@ module Shinji
     def transaction_storage
       RequestStore.store[:transaction] ||= {
         sql_events: [],
-        view_events: []
+        view_events: [],
+        mailer_events: []
       }
     end
   end

@@ -12,9 +12,10 @@ describe Shinji::PayloadRedactor do
       ]
     }
     let(:view_events) { [] }
+    let(:mailer_events) { [] }
 
     let(:transaction_payload) {
-      Shinji::TransactionPayload.new(transaction_event, sql_events, view_events)
+      Shinji::TransactionPayload.new(transaction_event, sql_events, view_events, mailer_events)
     }
 
     subject(:redacted_payload) { Shinji::PayloadRedactor.redact(transaction_payload) }

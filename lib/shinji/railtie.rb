@@ -5,6 +5,7 @@ module Shinji
       Shinji::EventHandler::ActionView::RenderTemplate,
       Shinji::EventHandler::ActionView::RenderPartial,
       Shinji::EventHandler::ActionController::ProcessAction,
+      Shinji::EventHandler::ActionMailer::Deliver,
     ]
 
     config.before_initialize do

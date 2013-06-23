@@ -43,13 +43,32 @@ describe Shinji::TransactionPayload do
       )
     ] }
 
+    let(:mailer_events) { [
+      stub(:mailer_event,
+        time:     Time.at(1371815338.955212),
+        end:      Time.at(1371815339.955212),
+        duration: 1,
+        payload: {
+          mailer: "FooMailer",
+          message_id: "123",
+        }
+      )
+    ] }
+
     before do
       Rails.stub(:root) { "/home/bob/foo" }
     end
 
-    it "returns a hash representation of event data" do
-      payload = Shinji::TransactionPayload.new(event, sql_events, view_events)
+    subject(:payload) {
+      Shinji::TransactionPayload.new(
+        event,
+        sql_events,
+        view_events,
+        mailer_events
+      )
+    }
 
+    it "returns a hash representation of event data" do
       expect(payload.to_h).to eq(
         {
           path:         "/posts/new",
@@ -80,6 +99,15 @@ describe Shinji::TransactionPayload do
               ended_at:   1371815339.955212,
               duration:   1,
               identifier: "/app/views/foobar.html"
+            }
+          ],
+          mailer_events: [
+            {
+              started_at: 1371815338.955212,
+              ended_at:   1371815339.955212,
+              duration:   1,
+              message_id: "123",
+              mailer:     "FooMailer",
             }
           ]
         }
