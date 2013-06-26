@@ -8,14 +8,14 @@ module Shinji
       Shinji::EventHandler::ActionMailer::Deliver,
     ]
 
-    config.before_initialize do
-      WORKERS = 3
-      SuckerPunch.config do
-        queue name: Shinji::PAYLOAD_QUEUE,
-              worker: Shinji::SendPayloadWorker,
-              workers: WORKERS
-      end
-    end
+    # config.before_initialize do
+    #   WORKERS = 3
+    #   SuckerPunch.config do
+    #     queue name: Shinji::PAYLOAD_QUEUE,
+    #           worker: Shinji::SendPayloadWorker,
+    #           workers: WORKERS
+    #   end
+    # end
 
     config.after_initialize do
       event_handlers.each do |handler|
