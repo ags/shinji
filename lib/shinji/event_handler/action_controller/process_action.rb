@@ -8,7 +8,7 @@ module Shinji
           if Shinji.enabled?
             payload = Shinji.build_transaction_payload(event)
 
-            SuckerPunch::Queue[Shinji::PAYLOAD_QUEUE].async.perform(payload)
+            PayloadSender.queue_send(payload)
           end
         end
       end

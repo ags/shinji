@@ -1,9 +1,7 @@
 require "spec_helper"
-require "sucker_punch/testing"
 
 describe Shinji::EventHandler::ActionController::ProcessAction do
   describe ".handle" do
-    let(:queue) { SuckerPunch::Queue.new(Shinji::PAYLOAD_QUEUE) }
     let(:event) {
       ActiveSupport::Notifications::Event.new(
         "render_template.action_view",
@@ -20,17 +18,19 @@ describe Shinji::EventHandler::ActionController::ProcessAction do
     end
 
     context "when Shinji is enabled" do
-      it "builds a TransactionPayload and queues it for sending" do
-        payload = stub(:payload)
+      it "queues a constructed TransactionPayload for sending" do
+        payload = double(:payload)
 
         Shinji.
           should_receive(:build_transaction_payload).
           with(event).
           and_return(payload)
 
-        expect do
-          Shinji::EventHandler::ActionController::ProcessAction.handle(event)
-        end.to change { queue.jobs.size }.by(1)
+        Shinji::PayloadSender.
+          should_receive(:queue_send).
+          with(payload)
+
+        Shinji::EventHandler::ActionController::ProcessAction.handle(event)
       end
 
       it "pushes the created event into the view_events collection" do
@@ -44,9 +44,11 @@ describe Shinji::EventHandler::ActionController::ProcessAction do
       let(:enabled) { false }
 
       it "does not queue a TransactionPayload" do
-        expect do
-          Shinji::EventHandler::ActionController::ProcessAction.handle(event)
-        end.to_not change { queue.jobs.size }
+        # TODO should_not_receive isn't a great idea.
+        Shinji::PayloadSender.
+          should_not_receive(:queue_send)
+
+        Shinji::EventHandler::ActionController::ProcessAction.handle(event)
       end
     end
   end

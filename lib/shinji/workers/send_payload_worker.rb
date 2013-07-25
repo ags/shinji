@@ -1,6 +1,6 @@
 module Shinji
   class SendPayloadWorker
-    include SuckerPunch::Worker
+    include SuckerPunch::Job
 
     def perform(transaction_payload)
       Shinji::GendoClient.post(GendoData(transaction_payload))
