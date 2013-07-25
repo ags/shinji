@@ -8,7 +8,7 @@ module Shinji
           if Shinji.enabled?
             payload = Shinji.build_transaction_payload(event)
 
-            PayloadSender.queue_send(payload)
+            PayloadSender.queue_payload(payload)
           end
         end
       end

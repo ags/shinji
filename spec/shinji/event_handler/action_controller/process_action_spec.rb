@@ -27,7 +27,7 @@ describe Shinji::EventHandler::ActionController::ProcessAction do
           and_return(payload)
 
         Shinji::PayloadSender.
-          should_receive(:queue_send).
+          should_receive(:queue_payload).
           with(payload)
 
         Shinji::EventHandler::ActionController::ProcessAction.handle(event)
@@ -46,7 +46,7 @@ describe Shinji::EventHandler::ActionController::ProcessAction do
       it "does not queue a TransactionPayload" do
         # TODO should_not_receive isn't a great idea.
         Shinji::PayloadSender.
-          should_not_receive(:queue_send)
+          should_not_receive(:queue_payload)
 
         Shinji::EventHandler::ActionController::ProcessAction.handle(event)
       end

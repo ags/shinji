@@ -19,6 +19,6 @@ describe Shinji::PayloadSender do
       should_receive(:perform).
       with(payload)
 
-    Shinji::PayloadSender.queue_send(payload)
+    Shinji::PayloadSender.queue_payload(payload)
   end
 end
