@@ -20,9 +20,10 @@ module Shinji
       @logger                 = options.fetch(:logger, Rails.logger)
       @read_timeout           = options.fetch(:read_timeout, 2)
       @open_timeout           = options.fetch(:open_timeout, 5)
-      @redactable_sql_tokens  = options.fetch(:redactable_sql_tokens,
-                                              DEFAULT_REDACTABLE_SQL_TOKENS.dup)
       @enabled                = options.fetch(:enabled, Rails.env.production?)
+      @redactable_sql_tokens  = options.fetch(:redactable_sql_tokens) {
+                                  DEFAULT_REDACTABLE_SQL_TOKENS.dup
+                                }
     end
 
     def framework
