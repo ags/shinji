@@ -2,7 +2,7 @@ require "spec_helper"
 require "sucker_punch/testing/inline"
 
 describe Shinji::PayloadSender do
-  it "enqueues a job on the payload queue" do
+  it "enqueues a SendPayloadWorker with the given payload" do
     payload = double(:payload)
     worker_instance = double(:worker_instance)
     async_proxy = double(:async_proxy)
