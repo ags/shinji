@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Shinji::SendPayloadWorker do
   let(:worker) { Shinji::SendPayloadWorker.new }
-  let(:payload) { stub(:payload) }
-  let(:redacted_payload) { stub(:redacted_payload) }
+  let(:payload) { double(:payload) }
+  let(:redacted_payload) { double(:redacted_payload) }
   let(:redacted_hash) { {} }
 
   it "posts the given payload to Gendo" do

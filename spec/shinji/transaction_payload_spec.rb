@@ -3,7 +3,7 @@ require "spec_helper"
 describe Shinji::TransactionPayload do
   describe "#to_h" do
     let(:event) {
-      stub(:event,
+      double(:event,
         duration: 5.79,
         time:     Time.at(1371815334.955212),
         end:      Time.at(1371815335.955212),
@@ -21,7 +21,7 @@ describe Shinji::TransactionPayload do
     }
 
     let(:sql_events) { [
-      stub(:sql_event,
+      double(:sql_event,
         time:     Time.at(1371815336.955212),
         end:      Time.at(1371815337.955212),
         duration: 1,
@@ -33,7 +33,7 @@ describe Shinji::TransactionPayload do
     ] }
 
     let(:view_events) { [
-      stub(:view_event,
+      double(:view_event,
         time:     Time.at(1371815338.955212),
         end:      Time.at(1371815339.955212),
         duration: 1,
@@ -44,7 +44,7 @@ describe Shinji::TransactionPayload do
     ] }
 
     let(:mailer_events) { [
-      stub(:mailer_event,
+      double(:mailer_event,
         time:     Time.at(1371815338.955212),
         end:      Time.at(1371815339.955212),
         duration: 1,
