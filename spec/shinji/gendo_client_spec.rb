@@ -16,9 +16,9 @@ describe Shinji::GendoClient do
 
   describe "#post" do
     it "posts JSON of the given payload to Gendo" do
-      stub_post = stub_request(:post, "http://localhost:5000/api/v1/transactions").
+      stub_post = stub_request(:post, "http://localhost:5000/api/v1/requests").
         with(
-          body: "{\"transaction\":{\"a\":1}}",
+          body: "{\"request\":{\"a\":1}}",
           headers: {
             "Accept" => "application/json",
             "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
@@ -46,7 +46,7 @@ describe Shinji::GendoClient do
 
     context "when the response is not successful" do
       it "returns false" do
-        stub_request(:post, "http://localhost:5000/api/v1/transactions").
+        stub_request(:post, "http://localhost:5000/api/v1/requests").
           to_return(:status => 401)
 
         expect(client.post(payload)).to eq(false)
@@ -57,7 +57,7 @@ describe Shinji::GendoClient do
       let(:logger) { double.as_null_object }
 
       it "returns false" do
-        stub_request(:post, "http://localhost:5000/api/v1/transactions").
+        stub_request(:post, "http://localhost:5000/api/v1/requests").
           to_return(:status => 201, :body => "")
 
         expect(client.post(payload)).to eq(false)
