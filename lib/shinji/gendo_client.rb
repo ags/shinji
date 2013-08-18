@@ -1,14 +1,16 @@
 module Shinji
   class GendoClient
     ENDPOINT_PATH = "/api/v1/requests".freeze
-    HTTP_ERRORS   = [Timeout::Error,
-                     Errno::EINVAL,
-                     Errno::ECONNRESET,
-                     EOFError,
-                     Net::HTTPBadResponse,
-                     Net::HTTPHeaderSyntaxError,
-                     Net::ProtocolError,
-                     Errno::ECONNREFUSED].freeze
+    HTTP_ERRORS   = [
+      Timeout::Error,
+      Errno::EINVAL,
+      Errno::ECONNRESET,
+      EOFError,
+      Net::HTTPBadResponse,
+      Net::HTTPHeaderSyntaxError,
+      Net::ProtocolError,
+      Errno::ECONNREFUSED
+    ].freeze
 
     def self.post(data)
       new.post(data)
@@ -19,7 +21,7 @@ module Shinji
     end
 
     def post(gendo_data)
-      request_body = {"request" => gendo_data}.to_json
+      request_body = {request: gendo_data}.to_json
 
       response = begin
                    http_connection.post(ENDPOINT_PATH, request_body, headers)
@@ -54,8 +56,8 @@ module Shinji
     def headers
       {
         "Authorization" => "Bearer #{@configuration.app_key}",
-        "Content-Type" => "application/json; charset=UTF-8",
-        "Accept"       => "application/json"
+        "Content-Type"  => "application/json; charset=UTF-8",
+        "Accept"        => "application/json"
       }
     end
 
