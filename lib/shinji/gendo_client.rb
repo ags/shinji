@@ -24,18 +24,13 @@ module Shinji
       request_body = {request: gendo_data}.to_json
 
       response = begin
-                   http_connection.post(ENDPOINT_PATH, request_body, headers)
-                 rescue *HTTP_ERRORS => e
-                   logger.error(e)
-                   :http_error
-                 end
-
-      case response
-      when Net::HTTPSuccess then
-        JSON.parse(response.body)
-      else
-        false
+        http_connection.post(ENDPOINT_PATH, request_body, headers)
+      rescue *HTTP_ERRORS => e
+        logger.error(e)
+        :http_error
       end
+
+      Net::HTTPSuccess === response
     rescue => e
       logger.error(e)
       false

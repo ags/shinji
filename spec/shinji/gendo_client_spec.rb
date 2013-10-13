@@ -26,9 +26,9 @@ describe Shinji::GendoClient do
             "Content-Type" => "application/json; charset=UTF-8",
             "User-Agent" => "Ruby"
           }
-      ).to_return(:status => 201, :body => "{}")
+      ).to_return(status: 201)
 
-      client.post(payload)
+      expect(client.post(payload)).to eq(true)
 
       expect(stub_post).to have_been_requested
     end
@@ -48,17 +48,6 @@ describe Shinji::GendoClient do
       it "returns false" do
         stub_request(:post, "http://localhost:5000/api/v1/requests").
           to_return(:status => 401)
-
-        expect(client.post(payload)).to eq(false)
-      end
-    end
-
-    context "when parsing response body fails" do
-      let(:logger) { double.as_null_object }
-
-      it "returns false" do
-        stub_request(:post, "http://localhost:5000/api/v1/requests").
-          to_return(:status => 201, :body => "")
 
         expect(client.post(payload)).to eq(false)
       end
